@@ -14,72 +14,72 @@ class SystemResponse {
     this.data = data;
   }
 
-  ok = (): void => {
-    this.res.status(HttpStatusCode.Ok).json({
+  ok = (): Response => {
+    return this.res.status(HttpStatusCode.Ok).json({
       status: true,
       message: this.message,
       data: this.data,
     });
   };
 
-  created = (): void => {
-    this.res.status(HttpStatusCode.Created).json({
+  created = (): Response => {
+    return this.res.status(HttpStatusCode.Created).json({
       status: true,
       message: this.message,
       data: this.data,
     });
   };
 
-  badRequest = (): void => {
-    this.res.status(HttpStatusCode.BadRequest).send({
+  badRequest = (): Response => {
+    return this.res.status(HttpStatusCode.BadRequest).send({
       status: false,
       message: this.message,
       error: this.data,
     });
   };
 
-  unauthorized = (): void => {
-    this.res.status(HttpStatusCode.Unauthorized).send({
+  unauthorized = (): Response => {
+    return this.res.status(HttpStatusCode.Unauthorized).send({
       status: false,
       message: this.message,
       error: this.data,
     });
   };
 
-  forbidden = (): void => {
-    this.res.status(HttpStatusCode.Forbidden).send({
+  forbidden = (): Response => {
+    return this.res.status(HttpStatusCode.Forbidden).send({
       status: false,
       message: this.message,
       error: this.data,
     });
   };
 
-  notFound = (): void => {
-    this.res.status(HttpStatusCode.NotFound).send({
+  notFound = (): Response => {
+    return this.res.status(HttpStatusCode.NotFound).send({
       status: false,
       message: this.message,
       error: this.data,
     });
   };
 
-  conflict = (): void => {
-    this.res.status(HttpStatusCode.Confict).send({
+  conflict = (): Response => {
+    return this.res.status(HttpStatusCode.Confict).send({
       status: false,
       message: this.message,
       error: this.data,
     });
   };
 
-  tooManyRequests = (): void => {
-    this.res.status(HttpStatusCode.TooManyRequests).send({
+  tooManyRequests = (): Response => {
+    return this.res.status(HttpStatusCode.TooManyRequests).send({
       status: false,
       message: this.message,
       error: this.data,
     });
   };
 
-  internalServerError = (): void => {
-    this.res.status(HttpStatusCode.InternalServerError).send({
+  internalServerError = (): Response => {
+    return this.res.status(HttpStatusCode.InternalServerError).send({
       status: false,
       message: this.message,
       error: this.data,

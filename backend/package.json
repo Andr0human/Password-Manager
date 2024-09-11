@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/Andr0human/Password-Manager#readme",
   "dependencies": {
+    "axios": "1.7.5",
     "bcrypt": "5.1.1",
     "cors": "2.8.5",
     "dotenv": "16.4.5",
