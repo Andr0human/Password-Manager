@@ -3,9 +3,9 @@ import CredController from './Controller';
 import CredValidation from './Validation';
 // import { AuthMiddleware } from '../../lib/middlewares';
 
-class UserRouter {
+class CredRouter {
   // eslint-disable-next-line no-use-before-define
-  private static instance: UserRouter;
+  private static instance: CredRouter;
 
   public router: express.Router;
 
@@ -23,12 +23,12 @@ class UserRouter {
     this.setupRoutes();
   }
 
-  static getInstance(): UserRouter {
-    if (!UserRouter.instance) {
-      UserRouter.instance = new UserRouter();
+  static getInstance(): CredRouter {
+    if (!CredRouter.instance) {
+      CredRouter.instance = new CredRouter();
     }
 
-    return UserRouter.instance;
+    return CredRouter.instance;
   }
 
   private setupRoutes(): void {
@@ -36,7 +36,7 @@ class UserRouter {
     this.router.get('/', this.credController.getAll);
 
     // Add new credential
-    this.router.post('/register', CredValidation.register, this.credController.register);
+    this.router.post('/create', CredValidation.register, this.credController.create);
 
     // Delete cred details by id
     this.router.delete(
@@ -46,5 +46,5 @@ class UserRouter {
   }
 }
 
-const routerInstance: express.Router = UserRouter.getInstance().router;
+const routerInstance: express.Router = CredRouter.getInstance().router;
 export default routerInstance;

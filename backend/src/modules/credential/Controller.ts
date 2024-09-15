@@ -34,10 +34,10 @@ class CredentialController {
     }
   };
 
-  register = async (req: Request, res: Response): Promise<Response> => {
+  create = async (req: Request, res: Response): Promise<Response> => {
     try {
       const newCredential: ICredential = req.body;
-      const existingCred = {};
+      const existingCred = false;
 
       if (existingCred) {
         return new SystemResponse(
