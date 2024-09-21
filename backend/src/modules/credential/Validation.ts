@@ -32,7 +32,7 @@ class CredValiation extends BaseValidation {
       next,
       registerValidator,
       req.body,
-      'new credential validation failed!'
+      'new credential validation failed!',
     );
   };
 }

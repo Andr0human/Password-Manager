@@ -46,7 +46,8 @@
         ],
         "allowSeparatedGroups": false
       }
-    ]
+    ],
+    "@typescript-eslint/explicit-module-boundary-types": "warn"
   },
   "settings": {
     "import/resolver": {

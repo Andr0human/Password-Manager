@@ -1,5 +1,8 @@
-import bcrypt from 'bcrypt';
-import { ICredential } from './entities';
+import {
+  Cipher, createCipheriv, createDecipheriv, Decipher, randomBytes,
+} from 'crypto';
+import { serverConfig } from '../../config';
+import { ICreateRequest, ICredential, IHash } from './entities';
 import CredentialRepository from './repositories/Repository';
 
 class CredentialService {
@@ -25,21 +28,21 @@ class CredentialService {
       '-createdBy',
       '-__v',
       page,
-      limit
+      limit,
     );
     return result;
   };
 
-  create = async (cred: ICredential): Promise<ICredential | null> => {
+  create = async (cred: ICreateRequest): Promise<ICreateRequest> => {
     // Hash password before storing in DB
-    const salt: string = await bcrypt.genSalt(10);
-    const hashedPassword: string = await bcrypt.hash(cred.password, salt);
+    const encryptedHash: IHash = CredentialService.encrypt(cred.password);
 
-    const result: ICredential | null = await this.credRepository.create({
+    await this.credRepository.create({
       ...cred,
-      password: hashedPassword,
+      password: encryptedHash,
     });
-    return result;
+
+    return cred;
   };
 
   deleteById = async (id: string): Promise<void> => {
@@ -48,6 +51,37 @@ class CredentialService {
 
   deleteAll = async (): Promise<void> => {
     await this.credRepository.deleteAll();
+  };
+
+  static encrypt = (text: string): IHash => {
+    const iv: Buffer = randomBytes(16);
+    const { cryptoAlgorithm, cryptoSecretKey } = serverConfig;
+
+    const cipher: Cipher = createCipheriv(cryptoAlgorithm, cryptoSecretKey, iv);
+
+    const encrypted: Buffer = Buffer.concat([cipher.update(text), cipher.final()]);
+
+    return {
+      iv: iv.toString('hex'),
+      content: encrypted.toString('hex'),
+    };
+  };
+
+  static decrypt = (hash: IHash): string => {
+    const { cryptoAlgorithm, cryptoSecretKey } = serverConfig;
+
+    const decipher: Decipher = createDecipheriv(
+      cryptoAlgorithm,
+      cryptoSecretKey,
+      Buffer.from(hash.iv, 'hex'),
+    );
+
+    const decrpyted = Buffer.concat([
+      decipher.update(Buffer.from(hash.content, 'hex')),
+      decipher.final(),
+    ]);
+
+    return decrpyted.toString();
   };
 }
 

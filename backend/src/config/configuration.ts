@@ -10,6 +10,8 @@ const serverConfig: IServerConfig = Object.freeze({
   jwtSecret: process.env.JWT_SECRET ?? '',
   mongoUrl: process.env.MONGO_URL ?? '',
   morganLogLevel: process.env.MORGAN_LOGLEVEL ?? 'dev',
+  cryptoAlgorithm: process.env.CRYPTO_ALGORITHM ?? '',
+  cryptoSecretKey: process.env.CRYPTO_SECRET_KEY ?? '',
 });
 
 export default serverConfig;

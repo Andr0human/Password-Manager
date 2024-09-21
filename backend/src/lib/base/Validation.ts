@@ -15,7 +15,7 @@ class BaseValidation {
     next: NextFunction,
     validator: ObjectSchema,
     value: any,
-    failedMsg: string
+    failedMsg: string,
   ): void => {
     const validationResult: ValidationResult<any> = validator.validate(value, {
       abortEarly: false,
@@ -38,7 +38,7 @@ class BaseValidation {
       next,
       idValidator,
       req.params,
-      `${this.idType} validation failed!`
+      `${this.idType} validation failed!`,
     );
   };
 }

@@ -1,5 +1,5 @@
 import { BaseRepository } from '../../../lib/base';
-import { ICredential } from '../entities'
+import { ICredential } from '../entities';
 import credentialModel from './model';
 
 class CredentialRepository extends BaseRepository<ICredential> {
@@ -16,7 +16,7 @@ class CredentialRepository extends BaseRepository<ICredential> {
     const result: ICredential | null = await this.model.findByIdAndUpdate(
       id,
       { $set: newData },
-      { new: true }
+      { new: true },
     );
     return result;
   };

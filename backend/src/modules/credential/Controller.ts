@@ -3,7 +3,7 @@ import { SystemResponse } from '../../lib/response-handler';
 
 import logger from '../../lib/logger';
 import CredentialService from './Services';
-import { ICredential } from './entities';
+import { ICreateRequest, ICredential } from './entities';
 
 class CredentialController {
   private readonly credService: CredentialService;
@@ -20,7 +20,7 @@ class CredentialController {
 
       const credList: ICredential[] | null = await this.credService.getAll(
         page,
-        limit
+        limit,
       );
       return new SystemResponse(res, 'credentials found!', credList).ok();
     } catch (error: unknown) {
@@ -29,33 +29,33 @@ class CredentialController {
       return new SystemResponse(
         res,
         'error retrieving all credentials!',
-        error
+        error,
       ).internalServerError();
     }
   };
 
   create = async (req: Request, res: Response): Promise<Response> => {
     try {
-      const newCredential: ICredential = req.body;
+      const newCredential: ICreateRequest = req.body;
       const existingCred = false;
 
       if (existingCred) {
         return new SystemResponse(
           res,
           'Credential already exists!',
-          newCredential
+          newCredential,
         ).conflict();
       }
 
-      await this.credService.create(newCredential);
-      return new SystemResponse(res, 'new credential added!', newCredential).created();
+      const result: ICreateRequest = await this.credService.create(newCredential);
+      return new SystemResponse(res, 'new credential added!', result).created();
     } catch (error: any) {
       logger.error('error in register API', error);
 
       return new SystemResponse(
         res,
         'error creating new credential!',
-        error.message
+        error.message,
       ).internalServerError();
     }
   };
@@ -68,7 +68,7 @@ class CredentialController {
 
       if (!cred) {
         return new SystemResponse(res, 'No credential found for the provided id!', {
-            credId,
+          credId,
         }).notFound();
       }
 
@@ -79,7 +79,7 @@ class CredentialController {
       return new SystemResponse(
         res,
         'Error retrieving credential by its id.',
-        error
+        error,
       ).internalServerError();
     }
   };
@@ -93,13 +93,13 @@ class CredentialController {
       return new SystemResponse(
         res,
         `credential with id:${credId} updated!`,
-        newCred
+        newCred,
       ).ok();
     } catch (error: any) {
       return new SystemResponse(
         res,
         'error updating credential!',
-        error
+        error,
       ).internalServerError();
     }
   };
@@ -120,7 +120,7 @@ class CredentialController {
       return new SystemResponse(
         res,
         'Error deleting credential by its id!',
-        error
+        error,
       ).internalServerError();
     }
   };

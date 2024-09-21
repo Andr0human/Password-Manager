@@ -4,6 +4,8 @@ interface IServerConfig {
   jwtSecret: string;
   mongoUrl: string;
   morganLogLevel: string;
+  cryptoAlgorithm: string;
+  cryptoSecretKey: string;
 }
 
 export default IServerConfig;

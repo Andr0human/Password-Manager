@@ -17,7 +17,7 @@ class BaseRepository<T> {
     sortBy: string,
     fields: string,
     page: number,
-    limit: number
+    limit: number,
   ): Promise<T[]> => {
     const skip: number = (page - 1) * limit;
     const result: T[] = await this.model

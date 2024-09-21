@@ -41,7 +41,7 @@ class CredRouter {
     // Delete cred details by id
     this.router.delete(
       '/:userId',
-      this.credController.deleteById
+      this.credController.deleteById,
     );
   }
 }
