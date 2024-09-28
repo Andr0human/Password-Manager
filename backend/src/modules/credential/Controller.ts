@@ -64,7 +64,7 @@ class CredentialController {
     try {
       const { credId } = req.params;
       const fields: string = '-__v';
-      const cred: ICredential | null = await this.credService.getById(credId, fields);
+      const cred: ICreateRequest | null = await this.credService.getById(credId, fields);
 
       if (!cred) {
         return new SystemResponse(res, 'No credential found for the provided id!', {

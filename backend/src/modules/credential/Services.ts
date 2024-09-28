@@ -12,8 +12,19 @@ class CredentialService {
     this.credRepository = new CredentialRepository();
   }
 
-  getById = async (credId: string, fields: string): Promise<ICredential | null> => {
-    const result: ICredential | null = await this.credRepository.getById(credId, fields);
+  getById = async (credId: string, fields: string): Promise<ICreateRequest | null> => {
+    const fetchedCred: ICredential | null = await this.credRepository.getById(credId, fields);
+
+    if (!fetchedCred) {
+      return null;
+    }
+
+    const result: ICreateRequest = {
+      // eslint-disable-next-line no-underscore-dangle
+      ...(fetchedCred as any)._doc,
+      password: CredentialService.decrypt(fetchedCred.password),
+    };
+
     return result;
   };
 

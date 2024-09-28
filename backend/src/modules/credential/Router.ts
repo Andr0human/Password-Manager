@@ -35,6 +35,9 @@ class CredRouter {
     // Get all credentials
     this.router.get('/', this.credController.getAll);
 
+    // Get By Id
+    this.router.get('/:credId', this.credController.getById);
+
     // Add new credential
     this.router.post('/create', CredValidation.register, this.credController.create);
 
